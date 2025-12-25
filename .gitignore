@@ -1,0 +1,25 @@
+# =====================
+# Virtual Environment
+# =====================
+absen2.venv/
+venv/
+.venv/
+
+# =====================
+# Dataset, Database & Output
+# =====================
+dataset/
+Database/
+logs/
+models/
+
+# =====================
+# Python cache
+# =====================
+__pycache__/
+*.pyc
+
+# =====================
+# Editor
+# =====================
+.vscode/
