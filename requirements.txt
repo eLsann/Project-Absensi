@@ -1,10 +1,6 @@
 opencv-python
 numpy
 pillow
-scikit-learn
-torch
-torchvision
 facenet-pytorch
 gtts
-playsound==1.2.2
-edge-tts
+pygame
