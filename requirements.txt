@@ -1,8 +1,10 @@
 opencv-python
+numpy
+pillow
+scikit-learn
 torch
 torchvision
 facenet-pytorch
-numpy
-scikit-learn
-pillow
-tk
+gtts
+playsound==1.2.2
+edge-tts
