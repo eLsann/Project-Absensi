@@ -24,3 +24,4 @@ __pycache__/
 # =====================
 .vscode/
 src/gui.py
+gui.py
