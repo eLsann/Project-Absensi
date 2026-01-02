@@ -3,9 +3,10 @@ import sys
 import os
 import cv2
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
 from datetime import datetime
+import threading
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT_DIR not in sys.path:
@@ -39,6 +40,7 @@ class AbsensiGUI:
             return
 
         self.running = True
+        self.flip_camera = False
         self.frame_count = 0
         self.last_result = None
         self.already_recorded = set()
@@ -46,6 +48,9 @@ class AbsensiGUI:
         self.build_layout()
         self.update_frame()
 
+    # ======================================================
+    # LAYOUT
+    # ======================================================
     def build_layout(self):
         container = tk.Frame(self.root, bg=BG)
         container.pack(fill="both", expand=True, padx=15, pady=15)
@@ -64,11 +69,32 @@ class AbsensiGUI:
         self.lbl_conf = self.make_label(side)
         self.lbl_time = self.make_label(side)
 
+        self.build_buttons(side)
+
     def make_label(self, parent):
         lbl = tk.Label(parent, text="-", bg=PANEL, fg=TEXT, font=("Segoe UI", 12))
         lbl.pack(anchor="w", padx=20, pady=5)
         return lbl
 
+    # ======================================================
+    # BUTTONS
+    # ======================================================
+    def build_buttons(self, parent):
+        frame = tk.Frame(parent, bg=PANEL)
+        frame.pack(pady=15, fill="x")
+
+        ttk.Button(frame, text="➕ Tambah Dataset", command=self.add_dataset)\
+            .pack(fill="x", padx=20, pady=5)
+
+        ttk.Button(frame, text="🔁 Flip Kamera", command=self.toggle_flip)\
+            .pack(fill="x", padx=20, pady=5)
+
+        ttk.Button(frame, text="✖ Keluar", command=self.on_close)\
+            .pack(fill="x", padx=20, pady=5)
+
+    # ======================================================
+    # CAMERA LOOP
+    # ======================================================
     def update_frame(self):
         if not self.running:
             return
@@ -77,6 +103,9 @@ class AbsensiGUI:
         if not ret:
             self.root.after(15, self.update_frame)
             return
+
+        if self.flip_camera:
+            frame = cv2.flip(frame, 1)
 
         self.frame_count += 1
 
@@ -114,6 +143,67 @@ class AbsensiGUI:
         self.camera_label.configure(image=imgtk)
 
         self.root.after(15, self.update_frame)
+
+    # ======================================================
+    # DATASET
+    # ======================================================
+    def add_dataset(self):
+        name = simpledialog.askstring("Dataset", "Masukkan nama:")
+        if not name:
+            return
+
+        self.running = False
+        self.cap.release()
+
+        t = threading.Thread(target=self.capture_dataset, args=(name,))
+        t.start()
+
+    def capture_dataset(self, name):
+        DATASET_DIR = os.path.join(ROOT_DIR, "dataset", name)
+        os.makedirs(DATASET_DIR, exist_ok=True)
+
+        cap = cv2.VideoCapture(0)
+        face_cascade = cv2.CascadeClassifier(
+            cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+        )
+
+        count = 0
+        MAX_IMG = 30
+
+        while count < MAX_IMG:
+            ret, frame = cap.read()
+            if not ret:
+                continue
+
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+            for (x, y, w, h) in faces:
+                face = gray[y:y+h, x:x+w]
+                face = cv2.resize(face, (160, 160))
+                cv2.imwrite(f"{DATASET_DIR}/{count}.jpg", face)
+                count += 1
+
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (0,255,0), 2)
+                cv2.putText(frame, f"{count}/{MAX_IMG}", (10,30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+
+            cv2.imshow("Ambil Dataset - Tekan Q untuk keluar", frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
+
+        self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        self.running = True
+        self.update_frame()
+
+    # ======================================================
+    # UTIL
+    # ======================================================
+    def toggle_flip(self):
+        self.flip_camera = not self.flip_camera
 
     def on_close(self):
         self.running = False
