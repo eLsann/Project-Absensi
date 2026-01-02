@@ -3,7 +3,7 @@ import os
 import time
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from face_embedder import get_embedding, detect_face_box
+from external_model.src.face_embedder import get_embedding, detect_face_box
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EMB_PATH = os.path.join(BASE_DIR, "models", "embeddings.npz")
