@@ -10,7 +10,7 @@ EMB_PATH = os.path.join(BASE_DIR, "models", "embeddings.npz")
 
 THRESHOLD = 0.35           # cosine similarity
 COOLDOWN_TIME = 10         # detik
-PROCESS_INTERVAL = 0.3     # detik (anti lag)
+PROCESS_INTERVAL = 0.3     # detik 
 
 db_embeddings = None
 db_names = None
