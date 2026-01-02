@@ -23,5 +23,3 @@ __pycache__/
 # Editor
 # =====================
 .vscode/
-src/gui.py
-gui.py
