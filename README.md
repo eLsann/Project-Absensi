@@ -1,10 +1,10 @@
-# Project Absensi (Face Recognition Attendance System) ✅
+# Project Absensi (Face Recognition Attendance System)
 
 Sistem absensi berbasis pengenalan wajah menggunakan **FaceNet (facenet-pytorch)** dengan antarmuka GUI sederhana (Tkinter). Projekt ini memudahkan perekaman, pelatihan, dan pengenalan wajah untuk tujuan absensi.
 
 ---
 
-## ✨ ✨ Fitur
+## Fitur
 - Deteksi wajah real-time dari kamera
 - Identifikasi menggunakan FaceNet embeddings
 - Sistem absensi otomatis dengan mekanisme cooldown untuk mencegah duplikasi
@@ -12,7 +12,7 @@ Sistem absensi berbasis pengenalan wajah menggunakan **FaceNet (facenet-pytorch)
 - Bounding box dan label nama pada frame video
 - Text-to-Speech (sapaan/konfirmasi)
 
-## 🧰 Teknologi & Ketergantungan
+## Teknologi & Ketergantungan
 - **Python 3.10**
 - OpenCV
 - facenet-pytorch (FaceNet)
@@ -24,7 +24,7 @@ Sistem absensi berbasis pengenalan wajah menggunakan **FaceNet (facenet-pytorch)
 
 ---
 
-## 📁 Struktur Proyek (ringkasan)
+## Struktur Proyek (ringkasan)
 - `src/`
   - `capture_dataset.py` — tangkap foto/record wajah untuk dataset
   - `train_dl.py` — latih model / hitung embeddings
@@ -39,7 +39,7 @@ Sistem absensi berbasis pengenalan wajah menggunakan **FaceNet (facenet-pytorch)
 
 ---
 
-## 🚀 Instalasi & Persiapan
+## Instalasi & Persiapan
 1. Aktifkan virtual environment (Windows PowerShell):
 
 ```powershell
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Cara Penggunaan (singkat)
+## Cara Penggunaan (singkat)
 - Menangkap data wajah (untuk satu pengguna):
 
 ```bash
@@ -83,18 +83,7 @@ python src\recognizer.py
 
 ---
 
-## 💡 Tips & Catatan
+## Tips & Catatan
 - Letakkan folder dataset dengan nama user (mis. `dataset/Hasan`) berisi beberapa foto wajah untuk hasil terbaik.
 - `models/embeddings.npz` menyimpan embeddings yang dihasilkan oleh proses training.
-
 ---
-
-## ✍️ Kontribusi
-Jika ingin menambahkan fitur atau memperbaiki bug, silakan buat PR dan jelaskan perubahan yang diusulkan.
-
-## 📜 Lisensi
-Periksa file `LICENSE` jika ada, atau hubungi pemilik proyek untuk detail lisensi.
-
----
-
-**Selamat menggunakan — semoga membantu mempercepat proses absensi!** ✅
