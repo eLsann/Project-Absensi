@@ -8,7 +8,7 @@ from face_embedder import get_embedding, detect_face_box
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EMB_PATH = os.path.join(BASE_DIR, "models", "embeddings.npz")
 
-THRESHOLD = 0.35           # cosine similarity
+THRESHOLD = 0.10           # cosine similarity
 COOLDOWN_TIME = 10         # detik
 PROCESS_INTERVAL = 0.3     # detik 
 
